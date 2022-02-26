@@ -2,6 +2,7 @@ const ul = document.querySelector('.containerListaProdutos ul');
 
 function montarListaProdutos(listaProdutos) {
     ul.innerHTML = '';
+    let somaTotal = 0;
 
     listaProdutos.forEach((produto) => {
         const li = document.createElement('li');
@@ -12,13 +13,11 @@ function montarListaProdutos(listaProdutos) {
         const buttonAdicionarCarrinho = document.createElement('button');
         const olNutrientes = document.createElement('ol');
 
-        
         img.src = produto.img;
         img.alt = produto.nome;
         h3.innerText = produto.nome;
         p.innerText = produto.preco;
-        span.innerText = produto.secao;
-        //olNutrientes.innerText = produto.componentes;
+        span.innerText = produto.secao;        
         buttonAdicionarCarrinho.innerText = 'Adicionar ao Carrinho';
        
         for (let i = 0; i < produto.componentes.length; i++){
@@ -27,27 +26,49 @@ function montarListaProdutos(listaProdutos) {
             olNutrientes.appendChild(liComponentes);
         }
 
-        
-        buttonAdicionarCarrinho.addEventListener('click', () => {
-            adicionarAoCarrinho(produto);
-            somaPreco(produto)
-
-        })
-
-        
         li.appendChild(img);
         li.appendChild(h3);
         li.appendChild(p);
         li.appendChild(span);
         li.appendChild(olNutrientes);
         li.appendChild(buttonAdicionarCarrinho);        
-
+ 
+        ul.appendChild(li); 
         
-        ul.appendChild(li);  
+        buttonAdicionarCarrinho.addEventListener('click', () => {
+            const li = document.createElement('li');
+            const img = document.createElement('img');
+            const h3 = document.createElement('h3');
+            const p = document.createElement('p');
+            const span = document.createElement('span');        
+    
+            img.src = produto.img;
+            img.alt = produto.nome;
+            h3.innerText = produto.nome;
+            p.innerText = produto.preco;
+            span.innerText = produto.secao;
+            
+            li.appendChild(img);
+            li.appendChild(h3);
+            li.appendChild(p);
+            li.appendChild(span);
+
+            ulCarrinho.appendChild(li);
+
+            let preco = parseInt(produto.preco);
+            
+            
+            somaTotal = somaTotal + preco;
+            valorTotal.innerText = somaTotal;                     
+        })
         
        // const nutrientes = document.createElement('li')
     });
 }
+
+const ulCarrinho = document.querySelector('.containerCarrinho ul');
+
+const valorTotal = document.querySelector("#precoTotal"); 
 
 //função para filtrar horti-fruti
 
@@ -55,9 +76,7 @@ function filtrarPorHortifruti() {
     const listaHortifruti = produtos.filter((produto) => {
         return produto.secao === 'Hortifruti';
     });
-    montarListaProdutos(listaHortifruti);
-    
-        
+    montarListaProdutos(listaHortifruti);        
 }
 const botaoMostrarHortifruti = document.querySelector('.estiloGeralBotoes--filtrarHortifruti');
     botaoMostrarHortifruti.addEventListener('click', filtrarPorHortifruti);
@@ -68,8 +87,7 @@ const botaoMostrarHortifruti = document.querySelector('.estiloGeralBotoes--filtr
         const lista = produtos.filter((produto) =>{
             return produto;
         });       
-        montarListaProdutos(lista); 
-               
+        montarListaProdutos(lista);                
     }  
     const botaoMostrarTodos = document.querySelector('.estiloGeralBotoes--mostrarTodos');
     botaoMostrarTodos.addEventListener('click', filtrarMostrarTodos); 
@@ -86,36 +104,22 @@ const botaoMostrarHortifruti = document.querySelector('.estiloGeralBotoes--filtr
             return produto.categoria.toLowerCase() === busca.toLowerCase()
           } else if(produto.secao.toLowerCase() === busca.toLowerCase()){
             return produto.secao.toLowerCase() === busca.toLowerCase()
-          }
-          
-        });
-        
+          }          
+        });       
       
         montarListaProdutos(buscaProduto);
-
     }
 const botaoBusca = document.querySelector('.estiloGeralBotoes--botaoBuscaPorNome');
     botaoBusca.addEventListener('click', buscarProdutos ); 
 
-// função de calcular preços
+ 
 
-   
-    const valorTotal = document.querySelector("#precoTotal");    
-
-
-    function adicionarAoCarrinho (produto){
-        console.log(produto);
-    }
-
-    function somaPreco(produto){
-        const somaTotalProdutos = produto.reduce((acc, valorAtual) => {
-            return acc + valorAtual.preco;
-        },0);
-        
-        valorTotal.innerText = (somaTotalProdutos)
-    }
-
-  //  const ul = document.querySelector('.containerListaProdutos ul');
-
+     
+           
+           
+            
+            
+    
+      
     
 
